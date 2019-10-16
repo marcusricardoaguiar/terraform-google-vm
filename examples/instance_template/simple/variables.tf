@@ -16,23 +16,29 @@
 
 variable "credentials_path" {
   description = "The path to the GCP credentials JSON file"
+  default = "credentials.json"
 }
 
 variable "project_id" {
   description = "The GCP project to use for integration tests"
+  default = "vela-cit"
 }
 
 variable "region" {
   description = "The GCP region to create and test resources in"
+  default = "us-central1"
 }
 
 variable "subnetwork" {
   description = "The name of the subnetwork create this instance in."
-  default     = ""
+  default     = "default"
 }
 
 variable "service_account" {
-  default = null
+  default = {
+	"email" = "132955150590-compute@developer.gserviceaccount.com"
+	"scopes" = ["compute-rw"]
+  }
   type = object({
     email  = string
     scopes = set(string)
@@ -43,10 +49,14 @@ variable "service_account" {
 variable "tags" {
   type        = list(string)
   description = "Network tags, provided as a list"
+  default = [ "terraform-instance" ]
 }
 
 variable "labels" {
   type        = map(string)
   description = "Labels, provided as a map"
+  default = {
+	"name" = "terraform-instance"
+  }
 }
 
