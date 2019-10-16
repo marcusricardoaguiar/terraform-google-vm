@@ -38,7 +38,7 @@ module "compute_instance" {
   source            = "../../../modules/compute_instance"
   subnetwork        = var.subnetwork
   num_instances     = var.num_instances
-  hostname          = "instance-simple"
+  hostname          = "marcussantos-instance-simple"
   instance_template = module.instance_template.self_link
 }
 
