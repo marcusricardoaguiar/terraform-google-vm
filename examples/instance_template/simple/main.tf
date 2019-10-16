@@ -26,7 +26,6 @@ module "instance_template" {
   project_id      = var.project_id
   subnetwork      = var.subnetwork
   service_account = var.service_account
-  name_prefix     = "simple"
   tags            = var.tags
   labels          = var.labels
 }

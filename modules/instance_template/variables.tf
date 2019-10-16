@@ -22,7 +22,7 @@ variable "project_id" {
 
 variable "name_prefix" {
   description = "Name prefix for the instance template"
-  default     = "default-instance-template"
+  default     = "marcussantos-instance-template"
 }
 
 variable "machine_type" {
