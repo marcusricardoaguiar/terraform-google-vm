@@ -98,11 +98,6 @@ resource "google_compute_instance_template" "tpl" {
     create_before_destroy = "true"
   }
 
-  provisioner "file" {
-    source = var.script_source
-    destination = var.script_destination
-  }
-
   // scheduling must have automatic_restart be false when preemptible is true.
   scheduling {
     preemptible       = var.preemptible

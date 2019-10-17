@@ -31,10 +31,10 @@ module "instance_template" {
   project_id         = var.project_id
   subnetwork         = var.subnetwork
   service_account    = var.service_account
+  tags            = var.tags
+  labels          = var.labels
   subnetwork_project = var.project_id
   startup_script     = var.startup_script
-  script_source      = var.script_source
-  script_destination = var.script_destination
 }
 
 module "mig" {

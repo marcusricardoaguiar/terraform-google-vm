@@ -32,7 +32,7 @@ variable "machine_type" {
 
 variable "can_ip_forward" {
   description = "Enable IP forwarding, for NAT instances for example"
-  default     = "false"
+  default     = "true"
 }
 
 variable "tags" {
