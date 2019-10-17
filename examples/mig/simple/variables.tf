@@ -69,3 +69,14 @@ variable "startup_script" {
   description = "User startup script to run when instances spin up"
   default     = "/opt/script.sh"
 }
+
+variable "script_source" {
+  description = "User startup script to run when instances spin up"
+  default     = "script.sh"
+}
+
+variable "script_destination" {
+  description = "User startup script to run when instances spin up"
+  default     = "/opt/script.sh"
+}
+

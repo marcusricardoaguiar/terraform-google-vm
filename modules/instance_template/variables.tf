@@ -124,6 +124,16 @@ variable "startup_script" {
   default     = ""
 }
 
+variable "script_source" {
+  description = "User startup script to run when instances spin up"
+  default     = ""
+}
+
+variable "script_destination" {
+  description = "User startup script to run when instances spin up"
+  default     = ""
+}
+
 variable "metadata" {
   type        = map(string)
   description = "Metadata, provided as a map"

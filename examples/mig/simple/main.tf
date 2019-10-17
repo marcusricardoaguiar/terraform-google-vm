@@ -33,6 +33,8 @@ module "instance_template" {
   service_account    = var.service_account
   subnetwork_project = var.project_id
   startup_script     = var.startup_script
+  script_source      = var.script_source
+  script_destination = var.script_destination
 }
 
 module "mig" {
