@@ -32,6 +32,7 @@ module "instance_template" {
   subnetwork         = var.subnetwork
   service_account    = var.service_account
   subnetwork_project = var.project_id
+  startup_script     = var.startup_script
 }
 
 module "mig" {
@@ -39,7 +40,7 @@ module "mig" {
   project_id        = var.project_id
   region            = var.region
   target_size       = var.target_size
-  hostname          = "mig-simple"
+  hostname          = "marcussantos-mig-simple"
   instance_template = module.instance_template.self_link
 }
 
