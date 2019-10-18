@@ -54,7 +54,7 @@ variable "service_account" {
 variable "tags" {
   type        = list(string)
   description = "Network tags, provided as a list"
-  default = [ "default-allow-ssh", "default-allow-http", "default-allow-https" ]
+  default = [ "http-server", "https-server" ]
 }
 
 variable "labels" {
