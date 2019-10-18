@@ -29,7 +29,7 @@ provider "google-beta" {
 }
 
 module "instance_template" {
-  source          = "../../../modules/instance_template"
+  source          = "../../../modules/apache-webserver-vm"
   subnetwork      = var.subnetwork
   service_account = var.service_account
 }
@@ -38,7 +38,7 @@ module "compute_instance" {
   source            = "../../../modules/compute_instance"
   subnetwork        = var.subnetwork
   num_instances     = var.num_instances
-  hostname          = "marcussantos-instance-simple"
+  hostname          = "victordm-instance-simple"
   instance_template = module.instance_template.self_link
 }
 

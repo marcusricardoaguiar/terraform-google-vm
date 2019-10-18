@@ -62,6 +62,6 @@ variable "labels" {
 
 variable "num_instances" {
   description = "Number of instances to create"
-  default = "2"
+  default = "1"
 }
 

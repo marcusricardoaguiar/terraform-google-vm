@@ -42,7 +42,7 @@ module "mig" {
   project_id        = var.project_id
   region            = var.region
   target_size       = var.target_size
-  hostname          = "marcussantos-mig-simple"
+  hostname          = "victordm-mig-simple"
   instance_template = module.instance_template.self_link
 }
 

@@ -22,7 +22,7 @@ variable "project_id" {
 
 variable "hostname" {
   description = "Hostname prefix for instances"
-  default     = "marcussantos-default"
+  default     = "victordm-default"
 }
 
 variable "region" {

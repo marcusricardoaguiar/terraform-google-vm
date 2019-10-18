@@ -38,7 +38,7 @@ variable "can_ip_forward" {
 variable "tags" {
   type        = list(string)
   description = "Network tags, provided as a list"
-  default     = []
+  default     = [""]
 }
 
 variable "labels" {
@@ -121,7 +121,7 @@ variable "subnetwork_project" {
 
 variable "startup_script" {
   description = "User startup script to run when instances spin up"
-  default     = ""
+  default     = "sudo apt-get update && sudo apt-get install apache2 -y && echo '<!doctype html><html><body><h1>Hello from Terraform on Google Cloud!</h1></body></html>' | sudo tee /var/www/html/index.html"
 }
 
 variable "script_source" {
