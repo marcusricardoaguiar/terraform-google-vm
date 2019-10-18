@@ -42,7 +42,7 @@ variable "target_size" {
 variable "service_account" {
   default = {
 	"email" = "132955150590-compute@developer.gserviceaccount.com"
-	"scopes" = ["compute-rw"]
+	"scopes" = ["compute-rw", "storage-ro"]
   }
   type = object({
     email  = string
