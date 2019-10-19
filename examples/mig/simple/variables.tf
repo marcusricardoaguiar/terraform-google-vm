@@ -42,7 +42,7 @@ variable "target_size" {
 variable "service_account" {
   default = {
 	"email" = "132955150590-compute@developer.gserviceaccount.com"
-	"scopes" = ["compute-rw"]
+	"scopes" = ["compute-rw", "storage-ro"]
   }
   type = object({
     email  = string
@@ -54,7 +54,7 @@ variable "service_account" {
 variable "tags" {
   type        = list(string)
   description = "Network tags, provided as a list"
-  default = [ "default-allow-ssh", "default-allow-http", "default-allow-https" ]
+  default = [ "http-server", "https-server" ]
 }
 
 variable "labels" {

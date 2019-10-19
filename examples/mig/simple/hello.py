@@ -4,5 +4,5 @@ app = Flask(__name__)
 def helloWorld():
 	return "Hello World\n"
 
-if __name__ = '__main__':
+if __name__ == '__main__':
 	app.run(port=8080)

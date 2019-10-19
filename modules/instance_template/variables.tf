@@ -58,17 +58,17 @@ variable "preemptible" {
 #######
 variable "source_image" {
   description = "Source disk image. If neither source_image nor source_image_family is specified, defaults to the latest public CentOS image."
-  default     = ""
+  default     = "debian-9-stretch-v20191014"
 }
 
 variable "source_image_family" {
   description = "Source image family. If neither source_image nor source_image_family is specified, defaults to the latest public CentOS image."
-  default     = ""
+  default     = "debian-9"
 }
 
 variable "source_image_project" {
   description = "Project where the source image comes from"
-  default     = ""
+  default     = "debian-cloud"
 }
 
 variable "disk_size_gb" {

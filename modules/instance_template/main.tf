@@ -92,6 +92,10 @@ resource "google_compute_instance_template" "tpl" {
     network            = var.network
     subnetwork         = var.subnetwork
     subnetwork_project = var.subnetwork_project
+
+    access_config {
+      // Ephemeral IP
+    }
   }
 
   lifecycle {
