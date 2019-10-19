@@ -39,11 +39,12 @@ variable "subnetwork" {
 
 variable "project_id" {
   description = "The GCP project to use for integration tests"
+  default = "vela-cit"
 }
 
 variable "credentials_path" {
   description = "The path to the GCP credentials JSON file"
-  default     = ""
+  default     = "credentials.json"
 }
 
 variable "subnetwork_project" {

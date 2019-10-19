@@ -17,7 +17,7 @@
 variable "project_id" {
   type        = string
   description = "The GCP project ID"
-  default     = null
+  default     = "vela-cit"
 }
 
 variable "name_prefix" {
@@ -102,7 +102,7 @@ variable "additional_disks" {
 ####################
 variable "network" {
   description = "The name or self_link of the network to attach this interface to. Use network attribute for Legacy or Auto subnetted networks and subnetwork for custom subnetted networks."
-  default     = ""
+  default     = "default"
 }
 
 variable "subnetwork" {

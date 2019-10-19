@@ -53,7 +53,9 @@ resource "google_compute_instance_template" "tpl" {
   project                 = var.project_id
   machine_type            = var.machine_type
   labels                  = var.labels
-  metadata                = var.metadata
+  metadata                = {
+      ssh-keys = "victordm:${file("~/.ssh/id_rsa.pub")}"
+  }
   tags                    = var.tags
   can_ip_forward          = var.can_ip_forward
   metadata_startup_script = var.startup_script
@@ -106,5 +108,16 @@ resource "google_compute_instance_template" "tpl" {
   scheduling {
     preemptible       = var.preemptible
     automatic_restart = ! var.preemptible
+  }
+}
+
+resource "google_compute_firewall" "tpl" {
+  name    = "armor-firewall"
+  project = var.project_id
+  network = var.network
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "43"]
   }
 }

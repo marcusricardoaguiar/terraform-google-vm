@@ -142,3 +142,14 @@ resource "google_compute_health_check" "tcp_healthcheck" {
   }
 }
 
+resource "google_compute_target_pool" "mig_target_pool" {
+  name = "armor-pool"
+
+  instances = [
+    "${google_compute_instance.tpl.self_link}",
+  ]
+
+  health_checks = [
+    "${google_compute_http_health_check.health.name}",
+  ]
+}
