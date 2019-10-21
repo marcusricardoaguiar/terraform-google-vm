@@ -20,6 +20,12 @@ variable "project_id" {
   default     = null
 }
 
+variable "ip_white_list" {
+  type = list(string)
+  description = "IP Whitelist"
+  default = ["192.168.15.14"]
+}
+
 variable "hostname" {
   description = "Hostname prefix for instances"
   default     = "victordm-default"
@@ -89,12 +95,12 @@ variable "hc_initial_delay_sec" {
 
 variable "hc_interval_sec" {
   description = "Health check interval in seconds."
-  default     = 30
+  default     = 1
 }
 
 variable "hc_timeout_sec" {
   description = "Health check timeout in seconds."
-  default     = 10
+  default     = 1
 }
 
 variable "hc_healthy_threshold" {

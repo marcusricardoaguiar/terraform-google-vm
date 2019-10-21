@@ -15,10 +15,7 @@
  */
 
 locals {
-  healthchecks = concat(
-    google_compute_health_check.http_healthcheck.*.self_link,
-    google_compute_health_check.tcp_healthcheck.*.self_link,
-  )
+  healthchecks = google_compute_http_health_check.health.self_link
   distribution_policy_zones_base = {
     default = data.google_compute_zones.available.names
     user    = var.distribution_policy_zones
@@ -53,8 +50,8 @@ resource "google_compute_region_instance_group_manager" "mig" {
   target_size  = var.autoscaling_enabled ? var.min_replicas : var.target_size
 
   auto_healing_policies {
-    health_check      = length(local.healthchecks) > 0 ? local.healthchecks[0] : ""
-    initial_delay_sec = length(local.healthchecks) > 0 ? var.hc_initial_delay_sec : 0
+    health_check      = local.healthchecks != "" ? local.healthchecks : ""
+    initial_delay_sec = local.healthchecks != "" ? var.hc_initial_delay_sec : 0
   }
   distribution_policy_zones = local.distribution_policy_zones
   dynamic "update_policy" {
@@ -144,12 +141,113 @@ resource "google_compute_health_check" "tcp_healthcheck" {
 
 resource "google_compute_target_pool" "mig_target_pool" {
   name = "armor-pool"
-
-  instances = [
-    "${google_compute_instance.tpl.self_link}",
-  ]
+  project = var.project_id
 
   health_checks = [
-    "${google_compute_http_health_check.health.name}",
+    "${google_compute_http_health_check.health.name}"
   ]
+}
+
+resource "google_compute_http_health_check" "health" {
+  name               = "armor-http-healthcheck"
+  project            = var.project_id
+  request_path       = var.hc_path
+  check_interval_sec = var.hc_interval_sec
+  timeout_sec        = var.hc_timeout_sec
+}
+
+resource "google_compute_backend_service" "website" {
+  name        = "armor-backend"
+  description = "Our company website"
+  port_name   = "http"
+  protocol    = "HTTP"
+  timeout_sec = 10
+  enable_cdn  = false
+  project = var.project_id
+
+  backend {
+    group = "${google_compute_region_instance_group_manager.mig.instance_group}"
+  }
+
+  security_policy = "${google_compute_security_policy.security-policy-1.self_link}"
+
+  health_checks = ["${google_compute_http_health_check.health.self_link}"]
+}
+
+# Cloud Armor Security policies
+resource "google_compute_security_policy" "security-policy-1" {
+  name        = "armor-security-policy"
+  description = "example security policy"
+  project = var.project_id
+
+  # Reject all traffic that hasn't been whitelisted.
+  rule {
+    action   = "deny(403)"
+    priority = "2147483647"
+
+    match {
+      versioned_expr = "SRC_IPS_V1"
+
+      config {
+        src_ip_ranges = ["*"]
+      }
+    }
+
+    description = "Default rule, higher priority overrides it"
+  }
+
+  # Whitelist traffic from certain ip address
+  rule {
+    action   = "allow"
+    priority = "1000"
+
+    match {
+      versioned_expr = "SRC_IPS_V1"
+
+      config {
+        src_ip_ranges = "${var.ip_white_list}"
+      }
+    }
+
+    description = "allow traffic from 192.0.2.0/24"
+  }
+}
+
+# Front end of the load balancer
+resource "google_compute_global_forwarding_rule" "default" {
+  project    = var.project_id
+  name       = "armor-rule"
+  target     = "${google_compute_target_http_proxy.default.self_link}"
+  port_range = "80"
+}
+
+resource "google_compute_target_http_proxy" "default" {
+  project    = var.project_id
+  name        = "armor-proxy"
+  url_map     = "${google_compute_url_map.default.self_link}"
+}
+
+resource "google_compute_url_map" "default" {
+  project    = var.project_id
+  name            = "armor-url-map"
+  default_service = "${google_compute_backend_service.website.self_link}"
+
+  host_rule {
+    hosts        = ["victordm-mlb.com"]
+    path_matcher = "allpaths"
+  }
+
+  path_matcher {
+    name            = "allpaths"
+    default_service = "${google_compute_backend_service.website.self_link}"
+
+    path_rule {
+      paths   = ["/*"]
+      service = "${google_compute_backend_service.website.self_link}"
+    }
+  }
+}
+
+output "ip" {
+  value = "${google_compute_global_forwarding_rule.default.ip_address}"
 }
