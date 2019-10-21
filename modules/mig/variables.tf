@@ -74,12 +74,12 @@ variable "update_policy" {
 
 variable "http_healthcheck_enable" {
   description = "Enable HTTP healthcheck"
-  default     = "false"
+  default     = "true"
 }
 
 variable "tcp_healthcheck_enable" {
   description = "Enable TCP healthcheck"
-  default     = "false"
+  default     = "true"
 }
 
 variable "hc_initial_delay_sec" {
@@ -114,7 +114,7 @@ variable "hc_path" {
 
 variable "hc_port" {
   description = "Health check port."
-  default     = ""
+  default     = "8080"
 }
 
 #############

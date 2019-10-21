@@ -26,6 +26,14 @@ provider "google-beta" {
   version     = "~> 2.7.0"
 }
 
+module "http-load-balancer" {
+  source             = "../../../modules/http-load-balancer"
+  project            = var.project_id
+  name               = var.load_balancer_name
+  enable_http        = true
+  instance_group     = "${module.mig.instance_group}"
+}
+
 module "instance_template" {
   source             = "../../../modules/instance_template"
   project_id         = var.project_id
@@ -45,4 +53,3 @@ module "mig" {
   hostname          = "marcussantos-mig-simple"
   instance_template = module.instance_template.self_link
 }
-
