@@ -67,6 +67,11 @@ resource "google_compute_region_instance_group_manager" "mig" {
     }
   }
 
+   named_port {
+    name = "http-victordm"
+    port = "8080"
+   }
+
   lifecycle {
     create_before_destroy = "true"
   }
@@ -119,7 +124,7 @@ resource "google_compute_health_check" "http_healthcheck" {
 
   http_health_check {
     request_path = var.hc_path
-    port         = var.hc_port
+    port         = "8080"
   }
 }
 
@@ -159,7 +164,7 @@ resource "google_compute_http_health_check" "health" {
 resource "google_compute_backend_service" "website" {
   name        = "armor-backend"
   description = "Our company website"
-  port_name   = "http"
+  port_name   = "http-victordm"
   protocol    = "HTTP"
   timeout_sec = 10
   enable_cdn  = false
