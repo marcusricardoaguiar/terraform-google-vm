@@ -74,12 +74,12 @@ variable "update_policy" {
 
 variable "http_healthcheck_enable" {
   description = "Enable HTTP healthcheck"
-  default     = "true"
+  default     = "false"
 }
 
 variable "tcp_healthcheck_enable" {
   description = "Enable TCP healthcheck"
-  default     = "true"
+  default     = "false"
 }
 
 variable "hc_initial_delay_sec" {

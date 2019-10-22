@@ -27,6 +27,7 @@ resource "google_compute_backend_service" "default" {
   name          = "backend-service"
   project            = var.project
   health_checks = ["${google_compute_http_health_check.default.self_link}"]
+  port_name     = "http-hello"
   backend {
     group                        = var.instance_group
     balancing_mode               = null
@@ -46,6 +47,7 @@ resource "google_compute_http_health_check" "default" {
   request_path       = "/"
   check_interval_sec = 1
   timeout_sec        = 1
+  port               = "8080"
 }
 
 resource "google_compute_target_http_proxy" "http" {
@@ -56,7 +58,7 @@ resource "google_compute_target_http_proxy" "http" {
 }
 
 resource "google_compute_url_map" "default" {
-  name            = "armor-url-map"
+  name            = "marcussantos-armor-url-map"
   project    = var.project
   default_service = "${google_compute_backend_service.default.self_link}"
 
