@@ -26,12 +26,19 @@ provider "google-beta" {
   version     = "~> 2.7.0"
 }
 
+module "security_policy" {
+  source            = "../../../modules/security-policy"
+  project_id        = var.project_id
+  ip_white_list     = var.ip_white_list
+}
+
 module "http-load-balancer" {
   source             = "../../../modules/http-load-balancer"
   project            = var.project_id
   name               = var.load_balancer_name
   enable_http        = true
   instance_group     = "${module.mig.instance_group}"
+  security_policy    = module.security_policy.self_link
 }
 
 module "instance_template" {

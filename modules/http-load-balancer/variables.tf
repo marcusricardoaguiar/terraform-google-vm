@@ -24,6 +24,11 @@ variable "instance_group" {
   type        = string
 }
 
+variable "security_policy" {
+  description = "A reference (self_link) to the url_map resource to use."
+  type        = string
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL MODULE PARAMETERS
 # These variables have defaults, but may be overridden by the operator.

@@ -56,6 +56,12 @@ variable "load_balancer_name" {
   default = "marcussantos-lb-mig-test"
 }
 
+variable "ip_white_list" {
+  type = list(string)
+  description = "IP Whitelist"
+  default = ["201.48.150.197"]
+}
+
 variable "tags" {
   type        = list(string)
   description = "Network tags, provided as a list"

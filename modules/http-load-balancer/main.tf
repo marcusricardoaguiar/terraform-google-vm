@@ -28,6 +28,7 @@ resource "google_compute_backend_service" "default" {
   project            = var.project
   health_checks = ["${google_compute_http_health_check.default.self_link}"]
   port_name     = "http-hello"
+  security_policy = var.security_policy
   backend {
     group                        = var.instance_group
     balancing_mode               = null
